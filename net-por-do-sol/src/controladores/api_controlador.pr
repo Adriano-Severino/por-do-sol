@@ -1,0 +1,19 @@
+usando Sistema.IO;
+usando AspPt.Http;
+
+espaco AspPt.Controladores {
+    publico classe ApiControlador {
+        protegido Resposta Json(objeto dados) {
+            var resposta = novo Resposta();
+            resposta.DefinirConteudo(Serializador.ParaJson(dados));
+            resposta.DefinirTipoConteudo("application/json");
+            retorne resposta;
+        }
+        
+        protegido Resposta Ok(objeto dados) {
+            var resposta = Json(dados);
+            resposta.CodigoStatus = 200;
+            retorne resposta;
+        }
+    }
+}
