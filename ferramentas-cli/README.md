@@ -26,7 +26,7 @@ Antes de começar, certifique-se de que você tem os seguintes softwares instala
 - **LLVM 16:** A linguagem depende especificamente desta versão.
     - Para Ubuntu/Debian:
       ```bash
-      
+       
       ```
 - 
 ## ⚙️ Instalação e Configuração
