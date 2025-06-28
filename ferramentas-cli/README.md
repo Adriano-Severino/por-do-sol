@@ -33,14 +33,14 @@ Antes de começar, certifique-se de que você tem os seguintes softwares instala
 
 1. **Clone o repositório:**
     ```bash
-    git clone https://github.com/Adriano-Severino/sistema-padrao.git
-    cd sistema-padrao
+    git clone https://github.com/Adriano-Severino/ferramentas-cli.git
+    cd ferramentas-cli
   ```
 3. **Construa o compilador:**
     ```bash
     cargo build --release
     ```
-    Isso criará um executável chamado `sistema-padrao` na pasta `target/release`.
+    Isso criará um executável chamado `ferramentas-cli` na pasta `target/release`.
 
 ## 📝 Como Usar
 
@@ -69,23 +69,13 @@ Essas extensões fornecem realce de sintaxe, auto-complete, diagnósticos e inte
 ## 🏗️ Estrutura do Projeto
 
 ```text
-net-por-do-sol/
+ferramentas-pt/
 ├── src/
-│   ├── nucleo/               # Core do framework
-│   │   ├── aplicacao.pr      # Similar a WebApplication
-│   │   ├── servidor.pr       # HTTP Server
-│   │   ├── middleware.pr     # Pipeline de middleware
-│   │   └── rota.pr          # Sistema de rotas
-│   ├── controladores/        # Controllers
-│   │   ├── controlador_base.pr
-│   │   └── api_controlador.pr
-│   ├── http/                # HTTP abstractions
-│   │   ├── requisicao.pr    # HttpRequest
-│   │   ├── resposta.pr      # HttpResponse
-│   │   └── contexto.pr      # HttpContext
-│   └── dependencias/        # Dependency Injection
-│       ├── container.pr
-│       └── servicos.pr
+│   ├── novo.rs              # Criar novos projetos
+│   ├── construir.rs         # Build projects
+│   ├── executar.rs          # Run projects
+│   ├── pacote.rs            # Package management
+│   └── servir.rs            # Dev server
 
 ```
 
@@ -96,7 +86,7 @@ Contribuições são muito bem-vindas! Para contribuir:
 1. Faça um fork do repositório
 2. Clone sua fork:
     ```bash
-    git clone https://github.com/Adriano-Severino/net-por-do-sol.git
+    git clone https://github.com/Adriano-Severino/ferramentas-cli.git
     ```
 3. Crie uma branch para sua feature:
     ```bash
