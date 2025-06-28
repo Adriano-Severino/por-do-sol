@@ -33,14 +33,14 @@ Antes de começar, certifique-se de que você tem os seguintes softwares instala
 
 1. **Clone o repositório:**
     ```bash
-    git clone https://github.com/Adriano-Severino/sistema-padrao.git
-    cd sistema-padrao
+    git clone https://github.com/Adriano-Severino/por-do-sol.git
+    cd .\por-do-sol\compilador-portugues
   ```
 3. **Construa o compilador:**
     ```bash
     cargo build --release
     ```
-    Isso criará um executável chamado `sistema-padrao` na pasta `target/release`.
+    Isso criará um executável chamado `compilador` na pasta `target/release`.
 
 ## 📝 Como Usar
 
@@ -92,7 +92,7 @@ Contribuições são muito bem-vindas! Para contribuir:
 1. Faça um fork do repositório
 2. Clone sua fork:
     ```bash
-    git clone https://github.com/Adriano-Severino/net-por-do-sol.git
+    git clone https://github.com/Adriano-Severino/por-do-sol.git
     ```
 3. Crie uma branch para sua feature:
     ```bash
@@ -118,7 +118,7 @@ Contribuições são muito bem-vindas! Para contribuir:
 
 ## 🐛 Reportando Problemas
 
-Encontrou um bug ou tem alguma sugestão? Abra uma Issue [neste link](https://github.com/Adriano-Severino/net-por-do-sol) com:
+Encontrou um bug ou tem alguma sugestão? Abra uma Issue [neste link](https://github.com/Adriano-Severino/por-do-sol) com:
 
 1. Descrição detalhada do problema ou sugestão.
 2. Passos para reproduzir o erro (se for um bug).

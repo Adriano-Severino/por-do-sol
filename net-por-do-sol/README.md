@@ -33,14 +33,9 @@ Antes de começar, certifique-se de que você tem os seguintes softwares instala
 
 1. **Clone o repositório:**
     ```bash
-    git clone https://github.com/Adriano-Severino/sistema-padrao.git
-    cd sistema-padrao
+    git clone https://github.com/Adriano-Severino/net-por-do-sol.git
+    cd net-por-do-sol
   ```
-3. **Construa o compilador:**
-    ```bash
-    cargo build --release
-    ```
-    Isso criará um executável chamado `sistema-padrao` na pasta `target/release`.
 
 ## 📝 Como Usar
 
