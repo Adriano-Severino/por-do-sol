@@ -1,12 +1,9 @@
 usando Sistema.IO;
 usando AspPt.Http;
 
-espaco AspPt.Controladores 
-{
-    publico classe ApiControlador 
-    {
-        protegido Resposta Json(objeto dados) 
-        {
+espaco AspPt.Controladores {
+    publico classe ApiControlador {
+        protegido Resposta Json(objeto dados) {
             var resposta = novo Resposta();
             resposta.DefinirConteudo(Serializador.ParaJson(dados));
             resposta.DefinirTipoConteudo("application/json");
