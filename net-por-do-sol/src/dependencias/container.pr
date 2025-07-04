@@ -1,0 +1,30 @@
+
+espaco Net.PorDoSol.Dependencias
+{
+    // Container de Injeção de Dependências
+    publico classe Container
+    {
+        privado Dicionario<texto, objeto> _servicos = novo Dicionario<texto, objeto>();
+        
+        // Registra um serviço no container
+        publico vazio Registrar<Interface, Implementacao>()
+        {
+            _servicos[typeof(Interface).Nome] = novo Implementacao();
+        }
+        
+        // Registra uma instância específica
+        publico vazio RegistrarInstancia<Interface>(objeto instancia)
+        {
+            _servicos[typeof(Interface).Nome] = instancia;
+        }
+        
+        // Resolve um serviço
+        publico Interface Resolver<Interface>()
+        {
+            se (_servicos.ContemChave(typeof(Interface).Nome))
+            retorne (Interface)_servicos[typeof(Interface).Nome];
+            senao
+            lance novo Excecao("Serviço não registrado: " + typeof(Interface).Nome);
+        }
+    }
+}

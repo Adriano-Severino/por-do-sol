@@ -1,0 +1,24 @@
+
+espaco Net.PorDoSol.Dependencias
+{
+    // Interface base para serviços
+    publico interface IServico
+    {
+        // Interface de marcação para todos os serviços
+    }
+    
+    // Exemplo de interface de serviço
+    publico interface IMensagemServico : IServico
+    {
+        texto ObterMensagem();
+    }
+    
+    // Implementação concreta do serviço
+    publico classe MensagemServico : IMensagemServico
+    {
+        publico texto ObterMensagem()
+        {
+            retorne "Olá do Serviço de Mensagem!";
+        }
+    }
+}
