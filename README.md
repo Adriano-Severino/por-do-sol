@@ -84,22 +84,25 @@ cd por-do-sol
 ```
 
 ### 2. Configuração Inicial Automática
-```bash
+```powershell
 # Windows (PowerShell)
-.\configurar-ambiente.ps1
-
+./configurar-ambiente.ps1
+```
+```bash
 # Linux/macOS
 ./configurar-ambiente.sh
 ```
 
-### 3. Verificação da Instalação
+### 3. Compilar e Executar um Exemplo
+```powershell
+# Windows
+./executar.ps1 -Entrada src/programa.pr -Alvo bytecode   # roda no interpretador
+./executar.ps1 -Entrada src/programa.pr -Alvo llvm       # gera executável nativo
+```
 ```bash
-# Teste rápido do compilador
-cd compilador-portugues
-cargo test
-
-# Compilar exemplo básico
-cargo run -- testes/exemplo_basico.pr
+# Linux/macOS
+./executar.sh src/programa.pr bytecode
+./executar.sh src/programa.pr llvm
 ```
 
 ## 🏗️ Projetos e Componentes
