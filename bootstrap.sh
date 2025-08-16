@@ -21,13 +21,25 @@ for dir in "${!REPOS[@]}"; do
     echo "Clonando $url em $dir..."
     git clone "$url" "$dir"
   else
-    echo "Diretório $dir já existe. Pulando clone."
+    echo "Diret??rio $dir j?? existe. Pulando clone."
   fi
 done
 
 # Copiar LICENSE e README se existirem ao lado do script agregador
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-[[ -f "$SCRIPT_DIR/LICENSE" ]] && cp -f "$SCRIPT_DIR/LICENSE" "$DESTINO/LICENSE"
-[[ -f "$SCRIPT_DIR/README.md" ]] && cp -f "$SCRIPT_DIR/README.md" "$DESTINO/README.md"
 
-echo "Concluído. Estrutura criada em: $DESTINO"
+# C??pia segura: s?? copia se o destino n??o for exatamente o mesmo arquivo
+if [[ -f "$SCRIPT_DIR/LICENSE" ]]; then
+  src="$SCRIPT_DIR/LICENSE"; dest="$DESTINO/LICENSE"
+  if [[ ! -e "$dest" || ! "$src" -ef "$dest" ]]; then
+    cp -f "$src" "$dest"
+  fi
+fi
+if [[ -f "$SCRIPT_DIR/README.md" ]]; then
+  src="$SCRIPT_DIR/README.md"; dest="$DESTINO/README.md"
+  if [[ ! -e "$dest" || ! "$src" -ef "$dest" ]]; then
+    cp -f "$src" "$dest"
+  fi
+fi
+
+echo "Conclu??do. Estrutura criada em: $DESTINO"
