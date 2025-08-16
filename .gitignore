@@ -1,0 +1,17 @@
+# Rust
+/compilador-portugues/target/
+**/*.pbc
+**/*.il
+**/*.csproj
+**/*.cs
+
+# VS Code extension build artifacts
+/pordosol-language-server/client/node_modules/
+/pordosol-language-server/server/node_modules/
+/pordosol-language-server/client/out/
+/pordosol-language-server/server/out/
+
+# Editor/OS
+.vscode/
+.DS_Store
+Thumbs.db
