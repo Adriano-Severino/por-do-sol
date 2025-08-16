@@ -27,9 +27,9 @@ try {
     if (!(Test-Path 'src/programa.pr')) {
         @'
 // programa.pr - exemplo inicial
-funcao principal()
+função vazio Principal() 
 {
-    imprima("Olá, Por do Sol!");
+    imprima("Ola, Por do Sol!");
 }
 '@ | Set-Content -NoNewline 'src/programa.pr' -Encoding UTF8
         Ok "Criado src/programa.pr"
@@ -41,6 +41,34 @@ funcao principal()
     Info 'Compilando compilador-portugues (release)...'
     & cargo build --manifest-path $cargoToml --release
     Ok 'Compilação concluída.'
+
+    # 2.1) Mover binários para lib/
+    $targetRelease = Join-Path $ProjetoDir 'compilador-portugues\target\release'
+    $libDir = Join-Path $ProjetoDir 'lib'
+    if (!(Test-Path $libDir)) { New-Item -ItemType Directory -Force -Path $libDir | Out-Null }
+    $binarios = @('compilador','interpretador')
+    foreach ($b in $binarios) {
+        $srcExe = Join-Path $targetRelease ("$b.exe")
+        $srcNoExt = Join-Path $targetRelease $b
+        $src = if (Test-Path $srcExe) { $srcExe } elseif (Test-Path $srcNoExt) { $srcNoExt } else { $null }
+        if ($src) {
+            $dest = Join-Path $libDir ([IO.Path]::GetFileName($src))
+            try {
+                Move-Item -Force -LiteralPath $src -Destination $dest
+                Ok ("Movido {0} para lib: {1}" -f $b, $dest)
+            } catch {
+                Warn ("Não foi possível mover {0}: {1}. Tentando copiar." -f $b, $_)
+                try {
+                    Copy-Item -Force -LiteralPath $src -Destination $dest
+                    Ok ("Copiado {0} para lib: {1}" -f $b, $dest)
+                } catch {
+                    Warn ("Falha ao copiar {0}: {1}" -f $b, $_)
+                }
+            }
+        } else {
+            Warn "Binário não encontrado após build: $b"
+        }
+    }
 
     # 3) Extensão VS Code (pack e install)
     if (-not $NaoInstalarExtensao) {

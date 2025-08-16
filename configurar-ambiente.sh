@@ -15,9 +15,9 @@ mkdir -p src lib build
 if [[ ! -f src/programa.pr ]]; then
   cat > src/programa.pr <<'PR'
 // programa.pr - exemplo inicial
-funcao principal()
+função vazio Principal() 
 {
-    imprima("Olá, Por do Sol!");
+    imprima("Ola, Por do Sol!");
 }
 PR
   ok "Criado src/programa.pr"

@@ -31,20 +31,30 @@ try {
     $EntradaAbs = (Resolve-Path -LiteralPath $Entrada).Path
     $nomeBase = [System.IO.Path]::GetFileNameWithoutExtension($EntradaAbs)
 
+    # Localiza binários preferindo lib/
+    $compiladorLib = Join-Path $Raiz 'lib\compilador.exe'
+    $interpretadorLib = Join-Path $Raiz 'lib\interpretador.exe'
+
     switch ($Alvo) {
         'bytecode' {
             Info 'Compilando para bytecode (.pbc)...'
             Push-Location $buildDir
             try {
-                & cargo run --manifest-path $cargoToml --release -- $EntradaAbs --target=bytecode
+                if (Test-Path $compiladorLib) {
+                    & $compiladorLib $EntradaAbs --target=bytecode
+                } else {
+                    & cargo run --manifest-path $cargoToml --bin compilador --release -- $EntradaAbs --target=bytecode
+                }
+                if ($LASTEXITCODE -ne 0) { throw "Falha ao compilar para bytecode (código: $LASTEXITCODE)." }
                 Ok 'Bytecode gerado.'
             } finally { Pop-Location }
 
-            $interp = Join-Path $Raiz 'compilador-portugues\target\release\interpretador.exe'
+            $interp = if (Test-Path $interpretadorLib) { $interpretadorLib } else { Join-Path $Raiz 'compilador-portugues\target\release\interpretador.exe' }
             if (!(Test-Path $interp)) { $interp = (Get-ChildItem -Recurse -Filter 'interpretador*.exe' -Path (Join-Path $Raiz 'compilador-portugues\target\release') -ErrorAction SilentlyContinue | Select-Object -First 1).FullName }
             if (!$interp -or !(Test-Path $interp)) { throw 'Interpretador não encontrado após build.' }
 
             $pbc = Join-Path $buildDir ("$nomeBase.pbc")
+            if (!(Test-Path $pbc)) { throw "Bytecode não encontrado em '$pbc'." }
             Info 'Executando interpretador...'
             if ($Debug) {
                 & $interp $pbc --debug
@@ -56,7 +66,12 @@ try {
             Info 'Compilando (alvo LLVM) para binário nativo...'
             Push-Location $buildDir
             try {
-                & cargo run --manifest-path $cargoToml --release -- $EntradaAbs --target=llvm-ir
+                if (Test-Path $compiladorLib) {
+                    & $compiladorLib $EntradaAbs --target=llvm-ir
+                } else {
+                    & cargo run --manifest-path $cargoToml --bin compilador --release -- $EntradaAbs --target=llvm-ir
+                }
+                if ($LASTEXITCODE -ne 0) { throw "Falha ao compilar alvo LLVM (código: $LASTEXITCODE)." }
             } finally { Pop-Location }
             # Nome do executável gerado segue o nome-base do arquivo de entrada
             $exeSemExt = Join-Path $buildDir $nomeBase

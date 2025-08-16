@@ -30,8 +30,18 @@ foreach ($r in $repos) {
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $lic = Join-Path $root 'LICENSE'
 $readme = Join-Path $root 'README.md'
-if (Test-Path $lic) { Copy-Item $lic -Destination (Join-Path $PWD 'LICENSE') -Force }
-if (Test-Path $readme) { Copy-Item $readme -Destination (Join-Path $PWD 'README.md') -Force }
+if (Test-Path $lic) {
+    $destLic = Join-Path $PWD 'LICENSE'
+    if ((Resolve-Path $lic).Path -ne (Resolve-Path $destLic).Path) {
+        Copy-Item $lic -Destination $destLic -Force
+    }
+}
+if (Test-Path $readme) {
+    $destReadme = Join-Path $PWD 'README.md'
+    if ((Resolve-Path $readme).Path -ne (Resolve-Path $destReadme).Path) {
+        Copy-Item $readme -Destination $destReadme -Force
+    }
+}
 
 Pop-Location
 
