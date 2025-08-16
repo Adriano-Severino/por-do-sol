@@ -32,14 +32,24 @@ $lic = Join-Path $root 'LICENSE'
 $readme = Join-Path $root 'README.md'
 if (Test-Path $lic) {
     $destLic = Join-Path $PWD 'LICENSE'
-    if ((Resolve-Path $lic).Path -ne (Resolve-Path $destLic).Path) {
+    # Copia se o destino não existir ou se não for o mesmo caminho do arquivo de origem
+    if (-not (Test-Path $destLic)) {
         Copy-Item $lic -Destination $destLic -Force
+    } else {
+        if ((Resolve-Path $lic).Path -ne (Resolve-Path $destLic).Path) {
+            Copy-Item $lic -Destination $destLic -Force
+        }
     }
 }
 if (Test-Path $readme) {
     $destReadme = Join-Path $PWD 'README.md'
-    if ((Resolve-Path $readme).Path -ne (Resolve-Path $destReadme).Path) {
+    # Copia se o destino não existir ou se não for o mesmo caminho do arquivo de origem
+    if (-not (Test-Path $destReadme)) {
         Copy-Item $readme -Destination $destReadme -Force
+    } else {
+        if ((Resolve-Path $readme).Path -ne (Resolve-Path $destReadme).Path) {
+            Copy-Item $readme -Destination $destReadme -Force
+        }
     }
 }
 
