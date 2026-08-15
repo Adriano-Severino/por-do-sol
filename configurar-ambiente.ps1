@@ -36,14 +36,14 @@ função vazio Principal()
     }
 
     # 2) Compilar compilador/interpretador (release)
-    $cargoToml = Join-Path $ProjetoDir 'por-do-sol\compilador-portugues\Cargo.toml'
+    $cargoToml = Join-Path $ProjetoDir '..\compilador-portugues\Cargo.toml'
     if (!(Test-Path $cargoToml)) { throw "Arquivo não encontrado: $cargoToml" }
     Info 'Compilando compilador-portugues (release)...'
     & cargo build --manifest-path $cargoToml --release
     Ok 'Compilação concluída.'
 
     # 2.1) Mover binários para lib/
-    $targetRelease = Join-Path $ProjetoDir 'por-do-sol\compilador-portugues\target\release'
+    $targetRelease = Join-Path $ProjetoDir '..\compilador-portugues\target\release'
     $libDir = Join-Path $ProjetoDir 'lib'
     if (!(Test-Path $libDir)) { New-Item -ItemType Directory -Force -Path $libDir | Out-Null }
     $binarios = @('compilador','interpretador')
@@ -71,7 +71,7 @@ função vazio Principal()
     }
 
     # 2.2) Compilar CLI (ferramentas-cli) e copiar pordosol.exe para lib/
-    $cliDir = Join-Path $ProjetoDir 'por-do-sol\ferramentas-cli'
+    $cliDir = Join-Path $ProjetoDir '..\ferramentas-cli'
     if (Test-Path $cliDir) {
         Info 'Compilando ferramentas-cli (release)...'
         & cargo build --manifest-path (Join-Path $cliDir 'Cargo.toml') --release
@@ -89,7 +89,7 @@ função vazio Principal()
 
     # 3) Extensão VS Code (pack e install)
     if (-not $NaoInstalarExtensao) {
-        $extDir = Join-Path $ProjetoDir 'pordosol-language-server'
+        $extDir = Join-Path $ProjetoDir '..\pordosol-language-server'
         if (Test-Path $extDir) {
             $vsix = Get-ChildItem -Path $extDir -Filter '*.vsix' -ErrorAction SilentlyContinue | Select-Object -First 1
             if (-not $vsix) {

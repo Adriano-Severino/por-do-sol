@@ -25,12 +25,49 @@ fi
 
 # 2) Compilar compilador/interpretador (release)
 info "Compilando compilador-portugues (release)..."
-cargo build --manifest-path "$PROJ_DIR/compilador-portugues/Cargo.toml" --release
+cargo build --manifest-path "$PROJ_DIR/../compilador-portugues/Cargo.toml" --release
 ok "Compilação concluída."
 
+# 2.1) Mover binários para lib/
+TARGET_RELEASE="$PROJ_DIR/../compilador-portugues/target/release"
+LIB_DIR="$PROJ_DIR/lib"
+mkdir -p "$LIB_DIR"
+
+BINARIES=("compilador" "interpretador")
+for bin in "${BINARIES[@]}"; do
+  if [[ -f "$TARGET_RELEASE/$bin" ]]; then
+    cp "$TARGET_RELEASE/$bin" "$LIB_DIR/"
+    ok "Movido $bin para lib: $LIB_DIR/$bin"
+  elif [[ -f "$TARGET_RELEASE/$bin.exe" ]]; then
+    cp "$TARGET_RELEASE/$bin.exe" "$LIB_DIR/"
+    ok "Movido $bin.exe para lib: $LIB_DIR/$bin.exe"
+  else
+    warn "Binário não encontrado após build: $bin"
+  fi
+done
+
+# 2.2) Compilar CLI (ferramentas-cli) e copiar pordosol para lib/
+CLI_DIR="$PROJ_DIR/../ferramentas-cli"
+if [[ -d "$CLI_DIR" ]]; then
+  info "Compilando ferramentas-cli (release)..."
+  cargo build --manifest-path "$CLI_DIR/Cargo.toml" --release
+
+  if [[ -f "$CLI_DIR/target/release/pordosol" ]]; then
+    cp "$CLI_DIR/target/release/pordosol" "$LIB_DIR/"
+    ok "Copiado pordosol para lib: $LIB_DIR/pordosol"
+  elif [[ -f "$CLI_DIR/target/release/pordosol.exe" ]]; then
+    cp "$CLI_DIR/target/release/pordosol.exe" "$LIB_DIR/"
+    ok "Copiado pordosol.exe para lib: $LIB_DIR/pordosol.exe"
+  else
+    warn "pordosol não encontrado após build do CLI."
+  fi
+else
+  warn "Pasta ferramentas-cli não encontrada; pulei a compilação do CLI."
+fi
+
 # 3) Extensão VS Code (pack e install)
-if [[ -d pordosol-language-server ]]; then
-  pushd pordosol-language-server >/dev/null
+if [[ -d ../pordosol-language-server ]]; then
+  pushd ../pordosol-language-server >/dev/null
   if [[ ! -f *.vsix ]]; then
     info "Empacotando extensão VS Code..."
     [[ -d node_modules ]] || npm install
